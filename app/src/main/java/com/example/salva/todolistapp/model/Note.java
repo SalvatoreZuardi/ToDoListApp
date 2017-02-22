@@ -1,4 +1,4 @@
-package com.example.salva.todolistapp;
+package com.example.salva.todolistapp.model;
 
 /**
  * Created by salva on 20/02/2017.
@@ -8,15 +8,21 @@ public class Note {
     private String titolo;
     private String corpo;
     private String data_Creazione;
-    private String ultima_Modifica;
+    private String data_Ultima_Modifica;
     private String data_Scadenza;
+    private Status stato;
+
+    public Note() {
+    }
 
     public Note(String titolo, String corpo, String data_Creazione, String ultima_Modifica, String data_Scadenza){
         this.titolo=titolo;
         this.corpo=corpo;
+
         this.data_Creazione=data_Creazione;
-        this.ultima_Modifica=ultima_Modifica;
+        this.data_Ultima_Modifica=ultima_Modifica;
         this.data_Scadenza=data_Scadenza;
+
     }
 
     public String getTitolo() {
@@ -35,12 +41,12 @@ public class Note {
         this.corpo = corpo;
     }
 
-    public String getUltima_Modifica() {
-        return ultima_Modifica;
+    public String getdata_Ultima_Modifica() {
+        return data_Ultima_Modifica;
     }
 
-    public void setUltima_Modifica(String ultima_Modifica) {
-        this.ultima_Modifica = ultima_Modifica;
+    public void setUltima_Modifica(String data_Ultima_Modifica) {
+        this.data_Ultima_Modifica = data_Ultima_Modifica;
     }
 
     public String getData_Creazione() {
@@ -53,6 +59,14 @@ public class Note {
 
     public String getData_Scadenza() {
         return data_Scadenza;
+    }
+
+    public Status getStato() {
+        return stato;
+    }
+
+    public void setStato(Status stato) {
+        this.stato = stato;
     }
 
     public void setData_Scadenza(String data_Scadenza) {

@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">ToDoListApp</string>
+    <string name="button1">Da fare</string>
+    <string name="button2">Archiviata</string>
+    <string name="title">Titolo</string>
+    <string name="body">Body</string>
+    <string name="note">Note</string>
+    <string name="insert_note">Insert note</string>
+    <string name="date_update">update date</string>
+    <string name="date_term">term date</string>
+    <string name="title_toolbar">ToDoList</string>
+    <string name="add">add</string>
+    <string name="delete">delete</string>
+    <string name="modify">edit</string>
+    <string name="date_creation">creation date</string>
+    <string name="done">Ok</string>
+
 </resources>
