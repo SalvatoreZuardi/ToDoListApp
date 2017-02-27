@@ -1,27 +1,50 @@
 package com.example.salva.todolistapp.model;
 
+import android.util.Log;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by salva on 20/02/2017.
  */
 
 public class Note {
+    private int id;
+    private static int idCount;
     private String titolo;
     private String corpo;
     private String data_Creazione;
     private String data_Ultima_Modifica;
     private String data_Scadenza;
     private Status stato;
+    private String isSpecial;
 
     public Note() {
+        Date date = Calendar.getInstance().getTime();
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        String format = formatter.format(date);
+
+        this.data_Creazione=format;
+        this.data_Ultima_Modifica=format;
+
+
     }
 
-    public Note(String titolo, String corpo, String data_Creazione, String ultima_Modifica, String data_Scadenza){
+    public Note(String titolo, String corpo, String data_Scadenza,String isSpecial){
+        Date date = Calendar.getInstance().getTime();
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        String format = formatter.format(date);
         this.titolo=titolo;
         this.corpo=corpo;
-
-        this.data_Creazione=data_Creazione;
-        this.data_Ultima_Modifica=ultima_Modifica;
+        this.id=idCount++;
+        this.data_Creazione=format;
+        this.data_Ultima_Modifica=format;
         this.data_Scadenza=data_Scadenza;
+        this.isSpecial=isSpecial;
+
 
     }
 
@@ -49,6 +72,18 @@ public class Note {
         this.data_Ultima_Modifica = data_Ultima_Modifica;
     }
 
+    @Override
+    public String toString() {
+        return "Note{" +
+                "titolo='" + titolo + '\'' +
+                ", corpo='" + corpo + '\'' +
+                ", data_Creazione='" + data_Creazione + '\'' +
+                ", data_Ultima_Modifica='" + data_Ultima_Modifica + '\'' +
+                ", data_Scadenza='" + data_Scadenza + '\'' +
+                ", stato=" + stato +
+                '}';
+    }
+
     public String getData_Creazione() {
         return data_Creazione;
     }
@@ -59,6 +94,24 @@ public class Note {
 
     public String getData_Scadenza() {
         return data_Scadenza;
+    }
+
+
+    public void setSpecial(String special) {
+        isSpecial = special;
+    }
+
+    public String isSpecial() {
+        return isSpecial;
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Status getStato() {

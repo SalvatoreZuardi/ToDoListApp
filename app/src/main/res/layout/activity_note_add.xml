@@ -20,16 +20,17 @@
         android:layout_height="wrap_content"
         android:hint="@string/title"
         android:inputType="text"
+        android:gravity="center"
         android:id="@+id/id_add_title"
         android:layout_weight="1"/>
 
-        <EditText
+        <!--<EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:inputType="date"
             android:hint="@string/date_creation"
-            android:id="@+id/id_add_date_creation" />
+            android:id="@+id/id_add_date_creation" />-->
     </LinearLayout>
 
 
@@ -37,22 +38,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/body"
-        android:inputType="text"
+        android:inputType="text|textMultiLine|textCapSentences"
         android:id="@+id/id_add_body"
         />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/date_update"
-            android:inputType="date"
-            android:id="@+id/id_add_date_update" />
 
+    <!--<EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/date_update"
+        android:inputType="date"
+        android:id="@+id/id_add_date_update" />-->
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/date_term"
+        android:drawableLeft="@drawable/calendar_plus"
         android:inputType="date"
-        android:id="@+id/id_add_term_date"/>
+        android:id="@+id/id_add_term_date"
+        android:focusable="false"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_note_prefer"
+        android:src="@drawable/star"
+        android:visibility="invisible"/>
+
+
 
 </LinearLayout>

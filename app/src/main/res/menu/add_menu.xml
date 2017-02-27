@@ -8,4 +8,11 @@
     android:id="@+id/id_add_menu">
 
 </item>
+    <item android:id="@+id/id_prefer_menu"
+        android:orderInCategory="100"
+        android:title="@string/star"
+        android:icon="@drawable/star_outline"
+        app:showAsAction="always">
+
+    </item>
 </menu>
