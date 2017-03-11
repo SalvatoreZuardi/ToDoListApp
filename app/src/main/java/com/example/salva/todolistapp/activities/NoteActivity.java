@@ -32,14 +32,20 @@ public class NoteActivity extends AppCompatActivity {
 
     Note editingNote;
 
+    public static final int modeEdit=1;
+   /* public static final String colorDefault="white";*/
+
     private static final int REQUEST_ADD = 1001;
     public static final int REQUEST_EDIT = 1002;
 
     public static final String TITLE ="Title";
     public static final String BODY ="Body";
     public static final String DATAS="DateS";
-
+    public static final String DATAU="DateU";
+    public static final String COLOR="Color";
     public static final String SPECIAL="special";
+
+    public static final String ACTIONOP= "actionop";
 
 
 
@@ -107,11 +113,20 @@ public class NoteActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+       /* SharedPreferences layoutPreferences = getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = layoutPreferences.edit();
+        editor.putInt(LAYOUT_MANAGER_KEY,getLayoutManagerTyper());
+        editor.apply();*/
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
         SharedPreferences layoutPreferences = getSharedPreferences(getString(R.string.preference_file_key),Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = layoutPreferences.edit();
         editor.putInt(LAYOUT_MANAGER_KEY,getLayoutManagerTyper());
         editor.apply();
-
     }
 
     private RecyclerView.LayoutManager getSavedLayoutManager() {
@@ -142,7 +157,9 @@ public class NoteActivity extends AppCompatActivity {
                /* note.setData_Creazione(data.getExtras().getString(DATAC));
                 note.setUltima_Modifica(data.getExtras().getString(DATAU));*/
                 note.setData_Scadenza(data.getStringExtra(DATAS));
+                note.setColor(android.R.color.white);
                 dbHandler.addNote(note);
+
                 adapter.addNote(note);
                 recyclerView.scrollToPosition(0);
             }
@@ -153,6 +170,10 @@ public class NoteActivity extends AppCompatActivity {
                 editingNote.setTitolo(data.getStringExtra(TITLE));
                 editingNote.setCorpo(data.getStringExtra(BODY));
                 editingNote.setData_Scadenza(data.getStringExtra(DATAS));
+                editingNote.setUltima_Modifica(data.getStringExtra(DATAU));
+                editingNote.setColor(data.getExtras().getInt(COLOR));
+                Log.d("purple",String.valueOf(android.R.color.holo_purple) );
+                Log.d("colore", String.valueOf(data.getExtras().getInt(COLOR)));
                 dbHandler.updateNote(editingNote);
                 adapter.updateDataSet(editingNote,adapter.getPosition());
             }
@@ -186,6 +207,7 @@ public class NoteActivity extends AppCompatActivity {
                     dbHandler.deletNote(adapter.getNote(adapter.getPosition()));
                     // remove from adapter
                     adapter.removeNote(adapter.getPosition());
+                    mode.finish();
                     break;
 
                 case R.id.id_edit_menu:
@@ -195,16 +217,20 @@ public class NoteActivity extends AppCompatActivity {
                     i.putExtra(TITLE,editingNote.getTitolo());
                     i.putExtra(BODY,editingNote.getCorpo());
                     i.putExtra(DATAS,editingNote.getData_Scadenza());
+                    i.putExtra(DATAU,editingNote.getdata_Ultima_Modifica());
+                    i.putExtra(COLOR,editingNote.getColor());
+                    i.putExtra(ACTIONOP,modeEdit);
                     startActivityForResult(i,REQUEST_EDIT);
+                    mode.finish();
                     break;
 
-                /*case R.id.id_prefer_menu:
+                case R.id.id_prefer_menu:
                     if(prefer.getVisibility()==View.INVISIBLE){
 
                         prefer.setVisibility(View.VISIBLE);
                     }
                     else
-                        prefer.setVisibility(View.INVISIBLE);*/
+                        prefer.setVisibility(View.INVISIBLE);
 
 
             }
@@ -274,10 +300,6 @@ public class NoteActivity extends AppCompatActivity {
                 i.putExtra(DATAS,editingNote.getData_Scadenza());
                 startActivityForResult(i,REQUEST_EDIT);
                 break;
-
-            case R.id.id_note_prefer:
-
-                editingNote = adapter.getNote(adapter.getPosition());
 
         }
 

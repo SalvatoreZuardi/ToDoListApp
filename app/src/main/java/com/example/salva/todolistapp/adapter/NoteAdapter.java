@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.salva.todolistapp.R;
@@ -80,6 +81,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteVH> {
         holder.DateUpdateEt.setText(note.getdata_Ultima_Modifica());
         holder.DateTermEt.setText(note.getData_Scadenza());
         holder.Special.setVisibility(note.isSpecial().equals("special")?View.VISIBLE:View.INVISIBLE );
+        holder.layout.setBackgroundColor(context.getResources().getColor(note.getColor()));
+        Log.d("adaptercolor",String.valueOf(note.getColor()));
 
     }
 
@@ -111,6 +114,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteVH> {
 
         TextView TitleEt,BodyEt,DateTermEt,DateUpdateEt,DateCreationEt;
         ImageView Special;
+        LinearLayout layout;
         View view;
 
         public NoteVH(final View itemView) {
@@ -122,6 +126,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteVH> {
             DateUpdateEt=(TextView)itemView.findViewById(R.id.note_update_date);
             DateCreationEt=(TextView)itemView.findViewById(R.id.note_creation_date);
             Special=(ImageView)itemView.findViewById(R.id.id_note_prefer);
+            layout=(LinearLayout)itemView.findViewById(R.id.layout_id);
 
 
             itemView.setOnLongClickListener(new View.OnLongClickListener() {

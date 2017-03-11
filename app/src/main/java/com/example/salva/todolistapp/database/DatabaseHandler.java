@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.salva.todolistapp.model.Note;
 
@@ -22,8 +23,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_BODY = "body";
     private static final String KEY_DATETERM = "dateterm";
     private static final String KEY_SPECIAL = "isSpecial";
+    private static final String KEY_COLOR = "color";
 
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 7;
     // Database Name
     private static final String DATABASE_NAME = "notes";
     // Contacts table name
@@ -39,7 +41,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         String CREATE_NOTE_TABLE = "CREATE TABLE " + TABLE_NOTES + "("
                 + KEY_ID + " INTEGER PRIMARY KEY, " + KEY_TITLE + " TEXT, "
-                + KEY_BODY + " TEXT, " + KEY_DATETERM + " TEXT, " + KEY_SPECIAL + " TEXT " + ")";
+                + KEY_BODY + " TEXT, " + KEY_DATETERM + " TEXT, " + KEY_SPECIAL + " TEXT, " + KEY_COLOR + " INTEGER " + ")";
         db.execSQL(CREATE_NOTE_TABLE);
     }
 
@@ -59,9 +61,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_BODY, note.getCorpo());
         values.put(KEY_DATETERM, note.getData_Scadenza());
         values.put(KEY_SPECIAL, note.isSpecial());
-
+        values.put(KEY_COLOR, note.getColor());
         // Inserting Row
-        db.insert(TABLE_NOTES, null, values);
+        long id = db.insert(TABLE_NOTES, null, values);
+        note.setId((int)id);
         db.close(); // Closing database connection
     }
 
@@ -81,11 +84,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                     note.setCorpo(cursor.getString(2));
                     note.setData_Scadenza(cursor.getString(3));
                     note.setSpecial(cursor.getString(4));
+                    note.setColor(Integer.parseInt(cursor.getString(5)));
+                    Log.d("getnotecolor",cursor.getString(5));
                     // Adding note to list
                     notesList.add(note);
                 } while (cursor.moveToNext());
             }
+
             return notesList;
+
 
         }
     public int updateNote(Note note) {
@@ -96,6 +103,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_BODY, note.getCorpo());
         values.put(KEY_DATETERM, note.getData_Scadenza());
         values.put(KEY_SPECIAL, note.isSpecial());
+        values.put(KEY_COLOR,note.getColor());
+        Log.d("dbcolor",String.valueOf(note.getColor()));
         // updating row
         return db.update(TABLE_NOTES, values, KEY_ID + " = ?",
                 new String[]{String.valueOf(note.getId())});

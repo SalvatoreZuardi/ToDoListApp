@@ -21,6 +21,7 @@ public class Note {
     private String data_Scadenza;
     private Status stato;
     private String isSpecial;
+    private int color;
 
     public Note() {
         Date date = Calendar.getInstance().getTime();
@@ -44,7 +45,7 @@ public class Note {
         this.data_Ultima_Modifica=format;
         this.data_Scadenza=data_Scadenza;
         this.isSpecial=isSpecial;
-
+        this.color = android.R.color.white;
 
     }
 
@@ -58,6 +59,14 @@ public class Note {
 
     public String getCorpo() {
         return corpo;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 
     public void setCorpo(String corpo) {

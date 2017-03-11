@@ -14,9 +14,12 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.example.salva.todolistapp.R;
 import com.example.salva.todolistapp.model.Note;
+import com.turkialkhateeb.materialcolorpicker.ColorChooserDialog;
+import com.turkialkhateeb.materialcolorpicker.ColorListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -32,11 +35,18 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     ImageView prefer;
     Intent intent;
     boolean stateSpecial;
+    LinearLayout layout;
+
+    public static final String COLOR ="color";
+    public int color=android.R.color.white;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        intent=getIntent();
+        Log.d("intent",intent.toString());
         setContentView(R.layout.activity_note_add);
+
 
         Toolbar toolbar=(Toolbar) findViewById(R.id.id_toolbar);
         setSupportActionBar(toolbar);
@@ -45,14 +55,21 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         title = (EditText) findViewById(R.id.id_add_title);
+        title.setText(intent.getStringExtra(NoteActivity.TITLE));
         body = (EditText) findViewById(R.id.id_add_body);
+        body.setText(intent.getStringExtra(NoteActivity.BODY));
         prefer = (ImageView) findViewById(R.id.id_note_prefer);
+        layout=(LinearLayout)findViewById(R.id.activity_addNote_layout);
+        if(NoteActivity.modeEdit==intent.getIntExtra(NoteActivity.ACTIONOP,99)){
+            layout.setBackgroundColor(getResources().getColor(intent.getExtras().getInt(NoteActivity.COLOR)));
+        }
         dateTerm = (EditText) findViewById(R.id.id_add_term_date);
+        dateTerm.setText(intent.getStringExtra(NoteActivity.DATAS));
         dateTerm.setOnClickListener(this);
 
        /* dateCreation = (EditText) findViewById(R.id.id_add_date_creation);
         dateUpdate = (EditText) findViewById(R.id.id_add_date_update);*/
-        intent=getIntent();
+
     }
     Calendar myCalendar = Calendar.getInstance();
 
@@ -83,6 +100,9 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         returnIntent.putExtra(NoteActivity.BODY,body.getText().toString());
         returnIntent.putExtra(NoteActivity.DATAS,dateTerm.getText().toString());
         returnIntent.putExtra(NoteActivity.SPECIAL,stateSpecial);
+        returnIntent.putExtra(NoteActivity.COLOR,color);
+        returnIntent.putExtra(COLOR,color);
+
         /*returnIntent.putExtra(NoteActivity.DATAC, dateCreation.getText().toString());
         returnIntent.putExtra(NoteActivity.DATAU, dateUpdate.getText().toString());*/
         setResult(Activity.RESULT_OK, returnIntent);
@@ -95,9 +115,17 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.add_menu,menu);
-        return true;
+       //differenzio la cancellazione e la modifica chiamando due menu differenti
+        if(NoteActivity.modeEdit == intent.getIntExtra(NoteActivity.ACTIONOP,99)){
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.edit_menu,menu);
+            return true;
+        }
+        else {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.add_menu, menu);
+            return true;
+        }
     }
 
     @Override
@@ -105,6 +133,7 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         int id = item.getItemId();
         if(id == R.id.id_add_menu){
             confirmNote();
+
             return true;
         }
         if(id == android.R.id.home){
@@ -114,6 +143,30 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         if(id == R.id.id_prefer_menu){
             setBookmark();
         }
+        if (id == R.id.id_color_menu){
+
+            switch(color) {
+                case android.R.color.white:
+                    color=android.R.color.holo_purple;
+                    break;
+                case android.R.color.holo_purple:
+                    color=android.R.color.darker_gray;
+                    break;
+                case android.R.color.darker_gray:
+                    color=android.R.color.holo_blue_light;
+                    break;
+                case android.R.color.holo_blue_light:
+                    color=android.R.color.holo_green_dark;
+                    break;
+                case android.R.color.holo_green_dark:
+                    color=android.R.color.holo_red_light;
+                    break;
+                case android.R.color.holo_red_light:
+                    color=android.R.color.white;
+                    break;
+            }
+            layout.setBackgroundColor(getResources().getColor(color));
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -122,6 +175,8 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
         stateSpecial = !stateSpecial;
         prefer.setVisibility(stateSpecial ? View.VISIBLE : View.INVISIBLE);
     }
+
+
 
     @Override
     public void onClick(View v) {

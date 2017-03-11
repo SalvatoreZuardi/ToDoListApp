@@ -5,6 +5,7 @@
     <string name="title">Titolo</string>
     <string name="body">Body</string>
     <string name="note">Note</string>
+    <string name ="Choose_Color">Choose color</string>
     <string name="insert_note">Insert note</string>
     <string name="date_update">update date</string>
     <string name="date_term">term date</string>
